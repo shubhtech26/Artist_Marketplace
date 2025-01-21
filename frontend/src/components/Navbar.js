@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -38,104 +39,123 @@ const ShopNowButton = styled(Button)(({ theme }) => ({
 }));
 
 const buttonStyles = {
-  color: '#001F54',
+  color: '#FFFFFF', // White for strong contrast
   fontFamily: "'Poppins', sans-serif",
   fontSize: '1rem',
   textTransform: 'none',
   margin: '0 10px',
   '&:hover': {
-    color: '#FF4081',
+    color: '#FFD700', // Gold hover color for vibrancy
     textDecoration: 'underline',
   },
 };
 
-const menuOptions = ['Home', 'About', 'Workshops', 'Contact', 'Login'];
+const menuOptions = [
+  { label: 'Home', path: '/' },
+  { label: 'About', path: '/about' },
+  { label: 'Workshops', path: '/workshops' },
+  { label: 'Contact', path: '/contact' },
+  { label: 'Login', path: '/login' },
+];
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <AppBar
-      position="static"
-      sx={{
-        background: 'linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 182, 193, 1) 100%)',
-        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-      }}
-    >
-      <Toolbar>
-        {/* Logo Section */}
-        <Logo>
-          <img src={logo} alt="Logo" style={{ width: '150px', height: '60px' }} />
-        </Logo>
+  position="static"
+  sx={{
+    background: 'linear-gradient(90deg, #FF4081 0%, #FF1744 50%, #D500F9 100%)',
+    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+    borderBottom: '2px solid rgba(255, 255, 255, 0.2)',
+  }}
+>
+  <Toolbar>
+    {/* Logo Section */}
+    <Logo>
+      <img src={logo} alt="Logo" style={{ width: '150px', height: '60px' }} />
+    </Logo>
 
-        {/* Spacer to push menu items to the right */}
-        <Box sx={{ flexGrow: 1 }} />
+    {/* Spacer */}
+    <Box sx={{ flexGrow: 1 }} />
 
-        {/* Desktop Menu */}
-        <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
-          {menuOptions.map((option) => (
-            <Button key={option} sx={buttonStyles}>
-              {option}
-            </Button>
-          ))}
-          <ShopNowButton>Shop Now</ShopNowButton>
-        </Box>
+    {/* Desktop Menu */}
+    <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+      {menuOptions.map((option) => (
+        <Button
+          key={option.label}
+          sx={{
+            ...buttonStyles,
+            '&:hover': {
+              color: '#FFD700', // Gold hover color
+              textDecoration: 'underline',
+            },
+          }}
+          component={Link}
+          to={option.path}
+        >
+          {option.label}
+        </Button>
+      ))}
+      <ShopNowButton>Shop Now</ShopNowButton>
+    </Box>
 
-        {/* Social Media Icons */}
-        <Box sx={{ display: { xs: 'none', md: 'flex' }, marginLeft: '20px' }}>
-          <IconButton href="https://instagram.com" sx={{ color: '#001F54' }}>
-            <InstagramIcon />
-          </IconButton>
-          <IconButton href="https://twitter.com" sx={{ color: '#001F54' }}>
-            <TwitterIcon />
-          </IconButton>
-          <IconButton href="https://facebook.com" sx={{ color: '#001F54' }}>
-            <FacebookIcon />
-          </IconButton>
-        </Box>
+    {/* Social Media Icons */}
+    <Box sx={{ display: { xs: 'none', md: 'flex' }, marginLeft: '20px' }}>
+      <IconButton href="https://instagram.com" sx={{ color: '#FFD700', '&:hover': { color: '#FF4081' } }}>
+        <InstagramIcon />
+      </IconButton>
+      <IconButton href="https://twitter.com" sx={{ color: '#FFD700', '&:hover': { color: '#FF4081' } }}>
+        <TwitterIcon />
+      </IconButton>
+      <IconButton href="https://facebook.com" sx={{ color: '#FFD700', '&:hover': { color: '#FF4081' } }}>
+        <FacebookIcon />
+      </IconButton>
+    </Box>
 
-        {/* Mobile Menu Icon */}
-        <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-          <IconButton
-            sx={{ color: '#001F54' }}
-            edge="start"
-            aria-label="menu"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Box>
-      </Toolbar>
+    {/* Mobile Menu Icon */}
+    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+      <IconButton
+        sx={{ color: '#FFD700' }}
+        edge="start"
+        aria-label="menu"
+        onClick={() => setMobileMenuOpen(true)}
+      >
+        <MenuIcon />
+      </IconButton>
+    </Box>
+  </Toolbar>
 
-      {/* Drawer for Mobile Menu */}
-      <Drawer anchor="left" open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)}>
-        <List>
-          {menuOptions.map((option) => (
-            <ListItem button key={option}>
-              <ListItemText
-                primary={option}
-                primaryTypographyProps={{
-                  fontFamily: "'Poppins', sans-serif",
-                  fontSize: '1rem',
-                  color: '#001F54',
-                }}
-              />
-            </ListItem>
-          ))}
-          <ListItem>
-            <IconButton href="https://instagram.com" sx={{ color: '#001F54' }}>
-              <InstagramIcon />
-            </IconButton>
-            <IconButton href="https://twitter.com" sx={{ color: '#001F54' }}>
-              <TwitterIcon />
-            </IconButton>
-            <IconButton href="https://facebook.com" sx={{ color: '#001F54' }}>
-              <FacebookIcon />
-            </IconButton>
-          </ListItem>
-        </List>
-      </Drawer>
-    </AppBar>
+  {/* Drawer for Mobile Menu */}
+  <Drawer anchor="left" open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)}>
+    <List>
+      {menuOptions.map((option) => (
+        <ListItem button key={option.label} component={Link} to={option.path}>
+          <ListItemText
+            primary={option.label}
+            primaryTypographyProps={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: '1rem',
+              color: '#001F54',
+            }}
+          />
+        </ListItem>
+      ))}
+      <ListItem>
+        <IconButton href="https://instagram.com" sx={{ color: '#001F54' }}>
+          <InstagramIcon />
+        </IconButton>
+        <IconButton href="https://twitter.com" sx={{ color: '#001F54' }}>
+          <TwitterIcon />
+        </IconButton>
+        <IconButton href="https://facebook.com" sx={{ color: '#001F54' }}>
+          <FacebookIcon />
+        </IconButton>
+      </ListItem>
+    </List>
+  </Drawer>
+</AppBar>
+
   );
 };
 
