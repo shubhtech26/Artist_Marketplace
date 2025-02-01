@@ -54,6 +54,7 @@ const menuOptions = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
   { label: 'Workshops', path: '/workshops' },
+  { label: 'Gallery', path: '/gallery'},
   { label: 'Contact', path: '/contact' },
   { label: 'Login', path: '/login' },
 ];
@@ -97,6 +98,10 @@ const Navbar = () => {
           {option.label}
         </Button>
       ))}
+
+
+
+      
       <ShopNowButton>Shop Now</ShopNowButton>
     </Box>
 

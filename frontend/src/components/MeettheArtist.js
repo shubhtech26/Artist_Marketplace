@@ -18,7 +18,7 @@ function MeetTheArtist() {
           of life’s canvas, reflecting it in captivating art pieces that tell a story.
         </p>
         <a
-          href="#"
+          href="/About"
           className="mt-10 inline-block bg-gradient-to-r from-pink-400 to-pink-600 text-white font-semibold px-10 py-4 rounded-full shadow-lg hover:scale-105 transform transition duration-300"
         >
           Learn More
