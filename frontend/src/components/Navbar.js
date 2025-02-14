@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useCart } from '../context/CartContext'; // ✅ Import Cart Context
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -10,13 +11,13 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import FacebookIcon from '@mui/icons-material/Facebook';
+import Badge from '@mui/material/Badge'; // ✅ Import Badge for Cart Count
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { styled } from '@mui/system';
-import logo from '../assets/jc.png'; // Replace with your logo path
+import logo from '../assets/jc.png';
 
-// Styled Components
 const Logo = styled('div')({
   display: 'flex',
   flexDirection: 'column',
@@ -24,29 +25,39 @@ const Logo = styled('div')({
   fontFamily: "'Dancing Script', cursive",
 });
 
-const ShopNowButton = styled(Button)(({ theme }) => ({
+const ShopNowButton = styled(Button)({
   backgroundColor: '#FF4081',
   color: '#fff',
   fontFamily: "'Poppins', sans-serif",
   fontSize: '0.875rem',
-  padding: '10px 30px', // Adjusted for an oval shape
-  borderRadius: '50px', // Oval shape
+  padding: '10px 30px',
+  borderRadius: '50px',
   marginLeft: '16px',
   textTransform: 'none',
   '&:hover': {
     backgroundColor: '#E73370',
   },
-}));
+});
 
 const buttonStyles = {
-  color: '#FFFFFF', // White for strong contrast
+  color: '#F8E71C',
   fontFamily: "'Poppins', sans-serif",
   fontSize: '1rem',
   textTransform: 'none',
   margin: '0 10px',
   '&:hover': {
-    color: '#FFD700', // Gold hover color for vibrancy
+    color: '#FFD700',
     textDecoration: 'underline',
+  },
+  '&.active': {
+    fontWeight: 'bold',
+    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1))',
+    backdropFilter: 'blur(15px)',
+    borderRadius: '25px',
+    padding: '10px 20px',
+    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+    border: '1px solid rgba(255, 255, 255, 0.4)',
+    color: '#fff',
   },
 };
 
@@ -54,113 +65,103 @@ const menuOptions = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
   { label: 'Workshops', path: '/workshops' },
-  { label: 'Gallery', path: '/gallery'},
+  { label: 'Gallery', path: '/gallery' },
   { label: 'Contact', path: '/contact' },
-  { label: 'Login', path: '/login' },
 ];
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const { cart } = useCart(); // ✅ Get cart data from context
+
+  const handleShopNowClick = () => {
+    navigate('/shop'); // Navigate to shop page
+  };
 
   return (
     <AppBar
-  position="static"
-  sx={{
-    background: 'linear-gradient(90deg, #FF4081 0%, #FF1744 50%, #D500F9 100%)',
-    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-    borderBottom: '2px solid rgba(255, 255, 255, 0.2)',
-  }}
->
-  <Toolbar>
-    {/* Logo Section */}
-    <Logo>
-      <img src={logo} alt="Logo" style={{ width: '150px', height: '60px' }} />
-    </Logo>
+      position="static"
+      sx={{
+        background: 'linear-gradient(90deg, #FF4081 0%, #FF1744 50%, #D500F9 100%)',
+        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+        borderBottom: '2px solid rgba(255, 255, 255, 0.2)',
+      }}
+    >
+      <Toolbar>
+        {/* Logo */}
+        <Logo>
+          <img src={logo} alt="Logo" style={{ width: '150px', height: '60px' }} />
+        </Logo>
 
-    {/* Spacer */}
-    <Box sx={{ flexGrow: 1 }} />
+        <Box sx={{ flexGrow: 1 }} />
 
-    {/* Desktop Menu */}
-    <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
-      {menuOptions.map((option) => (
-        <Button
-          key={option.label}
-          sx={{
-            ...buttonStyles,
-            '&:hover': {
-              color: '#FFD700', // Gold hover color
-              textDecoration: 'underline',
-            },
-          }}
-          component={Link}
-          to={option.path}
-        >
-          {option.label}
-        </Button>
-      ))}
+        {/* Desktop Navigation Links */}
+        <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+          {menuOptions.map((option) => (
+            <Button key={option.label} sx={buttonStyles} component={NavLink} to={option.path}>
+              {option.label}
+            </Button>
+          ))}
+          <ShopNowButton onClick={handleShopNowClick}>Shop Now</ShopNowButton>
+        </Box>
 
+        {/* Icons for Wishlist, Cart, and Account */}
+        <Box sx={{ display: { xs: 'none', md: 'flex' }, marginLeft: '20px' }}>
+          <IconButton sx={{ color: '#FFD700', '&:hover': { color: '#FF4081' } }}>
+            <FavoriteBorderIcon />
+          </IconButton>
 
+          {/* ✅ Shopping Cart Icon with Badge */}
+          <IconButton sx={{ color: '#FFD700', '&:hover': { color: '#FF4081' } }} onClick={() => navigate('/cart')}>
+            <Badge badgeContent={cart.length} color="error">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
 
-      
-      <ShopNowButton>Shop Now</ShopNowButton>
-    </Box>
+          <IconButton sx={{ color: '#FFD700', '&:hover': { color: '#FF4081' } }}>
+            <AccountCircleIcon />
+          </IconButton>
+        </Box>
 
-    {/* Social Media Icons */}
-    <Box sx={{ display: { xs: 'none', md: 'flex' }, marginLeft: '20px' }}>
-      <IconButton href="https://instagram.com" sx={{ color: '#FFD700', '&:hover': { color: '#FF4081' } }}>
-        <InstagramIcon />
-      </IconButton>
-      <IconButton href="https://twitter.com" sx={{ color: '#FFD700', '&:hover': { color: '#FF4081' } }}>
-        <TwitterIcon />
-      </IconButton>
-      <IconButton href="https://facebook.com" sx={{ color: '#FFD700', '&:hover': { color: '#FF4081' } }}>
-        <FacebookIcon />
-      </IconButton>
-    </Box>
+        {/* Mobile Menu */}
+        <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <IconButton sx={{ color: '#FFD700' }} edge="start" aria-label="menu" onClick={() => setMobileMenuOpen(true)}>
+            <MenuIcon />
+          </IconButton>
+        </Box>
+      </Toolbar>
 
-    {/* Mobile Menu Icon */}
-    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-      <IconButton
-        sx={{ color: '#FFD700' }}
-        edge="start"
-        aria-label="menu"
-        onClick={() => setMobileMenuOpen(true)}
-      >
-        <MenuIcon />
-      </IconButton>
-    </Box>
-  </Toolbar>
-
-  {/* Drawer for Mobile Menu */}
-  <Drawer anchor="left" open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)}>
-    <List>
-      {menuOptions.map((option) => (
-        <ListItem button key={option.label} component={Link} to={option.path}>
-          <ListItemText
-            primary={option.label}
-            primaryTypographyProps={{
-              fontFamily: "'Poppins', sans-serif",
-              fontSize: '1rem',
-              color: '#001F54',
-            }}
-          />
-        </ListItem>
-      ))}
-      <ListItem>
-        <IconButton href="https://instagram.com" sx={{ color: '#001F54' }}>
-          <InstagramIcon />
-        </IconButton>
-        <IconButton href="https://twitter.com" sx={{ color: '#001F54' }}>
-          <TwitterIcon />
-        </IconButton>
-        <IconButton href="https://facebook.com" sx={{ color: '#001F54' }}>
-          <FacebookIcon />
-        </IconButton>
-      </ListItem>
-    </List>
-  </Drawer>
-</AppBar>
-
+      {/* Mobile Drawer */}
+      <Drawer anchor="left" open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)}>
+        <List>
+          {menuOptions.map((option) => (
+            <ListItem button key={option.label} component={NavLink} to={option.path}>
+              <ListItemText
+                primary={option.label}
+                primaryTypographyProps={{
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: '1rem',
+                  color: '#001F54',
+                }}
+              />
+            </ListItem>
+          ))}
+          <ListItem>
+            <IconButton sx={{ color: '#001F54' }}>
+              <FavoriteBorderIcon />
+            </IconButton>
+            <IconButton sx={{ color: '#001F54' }} onClick={() => navigate('/cart')}>
+              <Badge badgeContent={cart.length} color="error">
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+            <IconButton sx={{ color: '#001F54' }}>
+              <AccountCircleIcon />
+            </IconButton>
+          </ListItem>
+        </List>
+      </Drawer>
+    </AppBar>
   );
 };
 

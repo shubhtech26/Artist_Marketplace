@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { styled } from '@mui/system';
 import ProductCard from "../components/ProductCard_v2";
 import mockProducts from "../assets/mockProduct";
-import Navbar from "../components/Navbar";
 import FilterSection from "../components/FilterSection";
 
 const ShoppingPageContainer = styled('div')({
@@ -70,7 +69,7 @@ const ShoppingPage = () => {
 
   return (
     <div>
-      <Navbar />
+      
       <ShoppingPageContainer>
         <ContentWrapper>
           <FilterWrapper>
@@ -88,6 +87,7 @@ const ShoppingPage = () => {
           </ProductGrid>
         </ContentWrapper>
       </ShoppingPageContainer>
+
     </div>
   );
 };

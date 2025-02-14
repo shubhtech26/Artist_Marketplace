@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "@mui/system";
-import StarIcon from "@mui/icons-material/Star"; // Star for ratings
+import { useNavigate } from "react-router-dom";
+import StarIcon from "@mui/icons-material/Star";
 
 const Card = styled("div")({
   backgroundColor: "#FFFFFF",
@@ -9,8 +10,8 @@ const Card = styled("div")({
   transition: "0.3s",
   padding: "15px",
   textAlign: "center",
-  width: "300px", // Fixed width
-  minHeight: "400px", // Ensures consistency
+  width: "300px",
+  minHeight: "400px",
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
@@ -68,10 +69,16 @@ const AddToCartButton = styled("button")(({ inStock }) => ({
 }));
 
 const ProductCard_v2 = ({ product }) => {
-  if (!product) return null; // Prevents crashes
+  const navigate = useNavigate();
+
+  if (!product) return null;
+
+  const handleCardClick = () => {
+    navigate(`/product/${product.id}`); // Navigate to the product details page
+  };
 
   return (
-    <Card>
+    <Card onClick={handleCardClick}>
       <ProductImage src={product.image} alt={product.name} />
       <ProductDetails>
         <ProductName>{product.name}</ProductName>

@@ -1,17 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import About from './pages/About';
+import ShoppingPage from './pages/ShoppingPage';
+import Layout from './Layout'; // Ensure this is imported
+import Contact from './pages/Contact';
+import ProductDetail from './pages/ProductDetail';
+import Cart from './pages/Cart'; // Ensure this is imported
+import { CartProvider } from './context/CartContext'; // ✅ Import CartProvider
+
+// Define Routes
+const routes = createRoutesFromElements(
+  <Route path="/" element={<Layout />}>
+    <Route index element={<Home />} />
+    <Route path="about" element={<About />} />
+    <Route path="shop" element={<ShoppingPage />} />
+    <Route path="contact" element={<Contact />} />
+    <Route path="/product/:id" element={<ProductDetail />} />
+    <Route path="cart" element={<Cart />} />  {/* ✅ Cart Page Route */}
+  </Route>
+);
+
+const browserRouter = createBrowserRouter(routes);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
-    <App />
+    <CartProvider>  {/* ✅ Wrap with CartProvider */}
+      <RouterProvider router={browserRouter} />
+    </CartProvider>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

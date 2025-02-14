@@ -11,7 +11,7 @@ const mockProducts = [
     rating: 4.5,
     reviews: 23,
     inStock: true,
-    image: "https://via.placeholder.com/300/abstract-landscape",
+    image: "https://imgs.search.brave.com/y-Xoad2AusqHjNDbJlkRBNjyi2QWQVRqUoru2AZiRV4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmV0/c3lzdGF0aWMuY29t/LzUyMDg1MjQvci9p/bC80ZmQ1NGEvNTg2/MzA2MTc1OC9pbF82/MDB4NjAwLjU4NjMw/NjE3NThfMzdyNS5q/cGc",
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const mockProducts = [
     rating: 4.8,
     reviews: 35,
     inStock: true,
-    image: "https://via.placeholder.com/300/modern-portrait",
+    image: "https://imgs.search.brave.com/p1ArbzlSMkZGoJLVMMUD8JIebH_khtI1bxbyywIQQAc/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/amFncmFuam9zaC5j/b20vaW1hZ2VzLzIw/MjMvT2N0b2Jlci80/MTAyMDIzL01vYS1M/aXNhLUV4cGVuc2l2/ZS5qcGc",
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ const mockProducts = [
     rating: 4.2,
     reviews: 12,
     inStock: false,
-    image: "https://via.placeholder.com/300/classic-still-life",
+    image: "",
   },
   {
     id: 4,

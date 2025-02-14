@@ -1,11 +1,8 @@
 import * as React from "react";
-import Navbar from "../components/Navbar";
-import FooterSection from "../components/FooterSection";
-
 function About() {
   return (
     <div>
-      <Navbar />
+      
       <section className="relative flex items-center justify-center h-auto bg-white text-gray-800 px-8 py-16 rounded-lg shadow-xl">
         <div className="flex flex-col lg:flex-row items-center lg:items-start max-w-7xl mx-auto gap-x-8">
           {/* Image Section */}
@@ -79,7 +76,6 @@ function About() {
           </div>
         </div>
       </section>
-      <FooterSection />
     </div>
   );
 }

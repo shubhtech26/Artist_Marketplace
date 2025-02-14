@@ -1,14 +1,12 @@
 import React from "react";
-import Navbar from "../components/Navbar";
 import NewsletterSignup from "../components/NewsletterSignup"; // Import the NewsletterSignup component
 import FeaturedWorkSection from "../components/FeaturedWork";
 import MeetTheArtist from "../components/MeettheArtist";
-import FooterSection from "../components/FooterSection";
 const Home = () => {
   return (
     <div>
       {/* Navbar */}
-      <Navbar />
+      
 
       {/* Hero Section */}
       <div
@@ -44,7 +42,7 @@ const Home = () => {
         <NewsletterSignup /> {/* Render the NewsletterSignup component */}
         <FeaturedWorkSection/>
         <MeetTheArtist/>
-        <FooterSection/>
+        
     </div>
   );
 };
