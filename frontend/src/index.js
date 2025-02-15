@@ -11,7 +11,7 @@ import Contact from './pages/Contact';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart'; // Ensure this is imported
 import { CartProvider } from './context/CartContext'; // ✅ Import CartProvider
-
+import Checkout from './pages/Checkout';
 // Define Routes
 const routes = createRoutesFromElements(
   <Route path="/" element={<Layout />}>
@@ -21,6 +21,7 @@ const routes = createRoutesFromElements(
     <Route path="contact" element={<Contact />} />
     <Route path="/product/:id" element={<ProductDetail />} />
     <Route path="cart" element={<Cart />} />  {/* ✅ Cart Page Route */}
+    <Route path='checkout' element={<Checkout />} />
   </Route>
 );
 
