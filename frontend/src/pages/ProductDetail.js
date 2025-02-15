@@ -1,27 +1,26 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import mockProducts from "../assets/mockProduct";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../context/CartContext"; // Import Cart Context
+import mockProducts from "../assets/mockProduct"; // Ensure mockProduct.js exists
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const navigate = useNavigate(); // ✅ Initialize useNavigate()
+  const { cartDispatch } = useCart();
   const product = mockProducts.find((p) => p.id === parseInt(id));
 
   if (!product) {
     return <div className="text-center text-red-500 text-xl">Product Not Found</div>;
   }
 
-  const handleAddToCart = () => {
-    addToCart(product);
-    navigate("/cart"); // Redirect to cart after adding an item
-  };
-
   return (
     <div className="max-w-6xl mx-auto p-6 flex flex-col md:flex-row gap-8 bg-white shadow-lg rounded-xl mt-10">
       <div className="md:w-1/2">
-        <img src={product.image || "https://via.placeholder.com/600"} alt={product.name} className="w-full rounded-lg shadow-md" />
+        <img
+          src={product.image || "https://via.placeholder.com/600"}
+          alt={product.name}
+          className="w-full rounded-lg shadow-md"
+        />
       </div>
 
       <div className="md:w-1/2 flex flex-col gap-4">
@@ -38,14 +37,37 @@ const ProductDetails = () => {
           )}
         </div>
 
-        <p className="text-gray-700 text-sm leading-relaxed">{product.description || "Beautiful artwork to enhance your space."}</p>
+        <p className="text-gray-700 text-sm leading-relaxed">{product.description}</p>
 
         <div className="flex gap-4 mt-4">
-          <button onClick={handleAddToCart} className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-md transition-all">
+          {/* ✅ Add to Cart and Navigate to Cart Page */}
+          <button
+            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-md transition-all"
+            onClick={() => {
+              cartDispatch({ type: "ADD_TO_CART", payload: product });
+              navigate("/cart"); // ✅ Redirect to Cart Page
+            }}
+          >
             Add to Cart
           </button>
-          <button className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md transition-all">
+
+          {/* ✅ Buy Now redirects to Checkout */}
+          <button
+            className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md transition-all"
+            onClick={() => {
+              cartDispatch({ type: "ADD_TO_CART", payload: product });
+              navigate("/checkout"); // ✅ Redirect to Checkout
+            }}
+          >
             Buy Now
+          </button>
+
+          {/* ✅ Go Back Button */}
+          <button
+            className="bg-gray-400 hover:bg-gray-500 text-white px-5 py-2 rounded-lg shadow-md transition-all"
+            onClick={() => navigate(-1)} // ✅ Navigate back
+          >
+            Go Back
           </button>
         </div>
       </div>
