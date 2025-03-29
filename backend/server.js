@@ -1,37 +1,41 @@
 import express from "express";
-import Stripe from "stripe";
 import cors from "cors";
 import dotenv from "dotenv";
+import connectDB from "./config/db.js";
+import userRoutes from "./routes/userRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
-const app = express();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+// Connect to MongoDB
+connectDB();
+
+const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-app.post("/api/checkout", async (req, res) => {
-  try {
-    const { email, amount, paymentMethodId } = req.body;
+// Routes
+app.use("/api/users", userRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
 
-    if (!amount || amount <= 0) {
-      return res.status(400).json({ success: false, error: "Invalid amount" });
-    }
-
-    // Create a payment intent dynamically
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount, // 💰 Dynamic amount received from frontend
-      currency: "usd",
-      description: `Order Payment for ${email}`,
-      payment_method: paymentMethodId,
-      confirm: true, // Auto-confirm the payment
-    });
-
-    res.json({ success: true, clientSecret: paymentIntent.client_secret });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, error: error.message });
-  }
+// Basic route for testing
+app.get("/", (req, res) => {
+  res.send("API is running...");
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
